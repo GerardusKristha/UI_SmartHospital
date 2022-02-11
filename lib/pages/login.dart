@@ -15,10 +15,9 @@ class _Login_pageState extends State<Login_page> {
   TextEditingController password = new TextEditingController();
   var _nama, _password, kunci;
   String errorText = "isikan data";
-  void error() {
-    _nama = user_name.value;
-    _password = password.value;
-    if (_nama.toString().isEmpty || _password.toString().isEmpty) {
+
+  void login(user_name, password) {
+    if (user_name == null || password == null) {
       Text("fill the form");
     }
   }
@@ -55,23 +54,34 @@ class _Login_pageState extends State<Login_page> {
                           decoration: InputDecoration(
                               icon: Icon(Icons.person), hintText: "username"),
                         ),
-                        Text(user_name.value.toString()),
                         TextFormField(
                           controller: password,
                           decoration: InputDecoration(
                               icon: Icon(Icons.vpn_key), hintText: "password"),
                         ),
-                        Text(user_name.value.toString()),
                         SizedBox(height: 16),
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
                             child: Text("login"),
                             onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => home()));
+                              if (user_name.value == null ||
+                                  password.value == null) {
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                          content: Text(user_name.value.text +
+                                              password.value.text));
+                                    });
+                              } else {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => home()));
+                              }
+
+                              // login(user_name.value, password.value);
                             },
                           ),
                         ),
